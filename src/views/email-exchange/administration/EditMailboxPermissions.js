@@ -21,6 +21,7 @@ import { useLazyGenericPostRequestQuery } from 'src/store/api/app'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 import { useListMailboxPermissionsQuery } from 'src/store/api/mailbox'
+import { CippTable } from 'src/components/tables'
 
 const EditMailboxPermission = () => {
   const dispatch = useDispatch()
@@ -64,9 +65,7 @@ const EditMailboxPermission = () => {
     const shippedValues = {
       userid: userId,
       tenantFilter: tenantDomain,
-      AddFullAccessNoAutoMap: values.AddFullAccessNoAutoMap
-        ? values.AddFullAccessNoAutoMap.value
-        : null,
+      AddFullAccessNoAutoMap: values.AddFullAccessNoAutoMap ? values.AddFullAccessNoAutoMap : null,
       AddFullAccess: values.AddFullAccess ? values.AddFullAccess : null,
       RemoveFullAccess: values.RemoveFullAccess ? values.RemoveFullAccess : null,
       AddSendAs: values.AddSendAs ? values.AddSendAs : null,
@@ -78,6 +77,23 @@ const EditMailboxPermission = () => {
   const initialState = {
     ...user,
   }
+
+  const columns = [
+    {
+      name: 'User',
+      selector: (row) => row.User,
+      sortable: true,
+      wrap: true,
+      exportSelector: 'User',
+    },
+    {
+      name: 'Permissions',
+      selector: (row) => row['Permissions'],
+      sortable: true,
+      wrap: true,
+      exportSelector: 'Permissions',
+    },
+  ]
 
   const formDisabled = queryError === true
 
@@ -222,8 +238,7 @@ const EditMailboxPermission = () => {
                   {userIsFetching && <CSpinner />}
                   {!userIsFetching && (
                     <>
-                      These are the current set permissions for this account:
-                      <pre>{JSON.stringify(user, null, 2)}</pre>
+                      <CippTable reportName="UserPermissions" columns={columns} data={user} />
                     </>
                   )}
                 </CCardBody>

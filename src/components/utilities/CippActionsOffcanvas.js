@@ -168,7 +168,11 @@ export default function CippActionsOffcanvas(props) {
       {postResults.isError && (
         <CCallout color="danger">Could not connect to API: {postResults.error.message}</CCallout>
       )}
-      {getResults.isSuccess && <CCallout color="info">{getResults.data?.Results}</CCallout>}
+      {getResults.isSuccess && (
+        <CCallout color={getResults.data?.colour ? getResults.data?.colour : 'info'}>
+          {getResults.data?.Results}
+        </CCallout>
+      )}
       {getResults.isError && (
         <CCallout color="danger">Could not connect to API: {getResults.error.message}</CCallout>
       )}
@@ -199,7 +203,7 @@ const CippActionsOffcanvasPropTypes = {
       onClick: PropTypes.func,
       modal: PropTypes.bool,
       modalUrl: PropTypes.string,
-      modalBody: PropTypes.string,
+      modalBody: PropTypes.object,
       modalType: PropTypes.string,
       modalInput: PropTypes.bool,
       modalMessage: PropTypes.string,
@@ -216,7 +220,7 @@ const CippActionsOffcanvasPropTypes = {
       onClick: PropTypes.func,
       modal: PropTypes.bool,
       modalUrl: PropTypes.string,
-      modalBody: PropTypes.string,
+      modalBody: PropTypes.object,
       modalType: PropTypes.string,
       modalInput: PropTypes.bool,
       modalMessage: PropTypes.string,
